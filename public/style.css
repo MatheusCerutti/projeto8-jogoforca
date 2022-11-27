@@ -1,0 +1,72 @@
+img{
+    width:400px;
+    height: 466.67px;
+}
+
+.caixona{
+    padding-top: 59px;
+    box-sizing: border-box;
+    width:100%;
+    display:flex;
+    padding-left:38px;
+    padding-right:53px;
+}
+
+.direita{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    
+}
+
+button{
+    
+    color:white;
+    background-color: #27AE60;
+    width:200px;
+    height:60px;
+    border-radius: 8px;
+}
+.botao{
+    padding-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.palavra{
+    margin-top: 282px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.teclado{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.caixadeletras{
+    width:650px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.caixaLetra{
+    width:40px;
+    height:40px;
+    margin-right: 10px;
+    background-color: #9FAAB5;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid #7AA7C7;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 11px;
+    
+}
+
+.letraDentro{
+    color:#798A9F;
+}
