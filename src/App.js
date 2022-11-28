@@ -25,7 +25,7 @@ function App() {
     <>
       <Jogo contador={contador} comecarjogo={comecarjogo} testepalavra={testepalavra} color={color} dataanswer={dataanswer}></Jogo>
       <div className="teclado">
-        <Letras alfabeto={alfabeto} novoarray={novoarray} modojogo={modojogo} riscarLetra={riscarLetra}></Letras>
+        <Letras alfabeto={alfabeto} novoarray={novoarray} modojogo={modojogo} riscarLetra={riscarLetra} disabled={disabled}></Letras>
         <Chute setImput={setImput} textoImput={textoImput} chutar={chutar} disabled={disabled}></Chute>
       </div>
     </>
