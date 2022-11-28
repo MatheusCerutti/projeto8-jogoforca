@@ -107,3 +107,9 @@ input{
     display: flex;
     align-items: center;
 }
+
+.underline{
+    font-weight: 700;
+    font-size:50px;
+    margin-left:5px;
+}
