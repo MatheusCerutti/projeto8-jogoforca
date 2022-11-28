@@ -18,11 +18,12 @@ function App() {
   const [textoImput, setImput] = React.useState("")
   const [chutasso, setChutasso] = React.useState([])
   const [disabled,setDisabled] = React.useState("disabled")
+  const [dataanswer,setData] = React.useState("")
 
 
   return (
     <>
-      <Jogo contador={contador} comecarjogo={comecarjogo} testepalavra={testepalavra} color={color}></Jogo>
+      <Jogo contador={contador} comecarjogo={comecarjogo} testepalavra={testepalavra} color={color} dataanswer={dataanswer}></Jogo>
       <div className="teclado">
         <Letras alfabeto={alfabeto} novoarray={novoarray} modojogo={modojogo} riscarLetra={riscarLetra}></Letras>
         <Chute setImput={setImput} textoImput={textoImput} chutar={chutar} disabled={disabled}></Chute>
@@ -47,6 +48,7 @@ function App() {
     setPalavra(palavradavez)
     setPalavraArray(arraypalavradavez)
     criarSublinhado(arraypalavradavez)
+    setData(palavradavez)
   }
 
   function criarSublinhado(array) {

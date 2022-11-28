@@ -10,7 +10,7 @@ export default function Letas(props) {
 function Teste(props) {
 
     return (
-      <div className={`caixaLetra ${props.novoarray.includes(props.letraAtual) ? "jogoff" : props.modojogo}`} onClick={() => props.riscarLetra(props.letraAtual)}>
+      <div className={`caixaLetra ${props.novoarray.includes(props.letraAtual) ? "jogoff" : props.modojogo}`} onClick={() => props.riscarLetra(props.letraAtual)} data-test="letter">
         <div className="letraDentro" key="letra">{props.letraAtual}</div>
       </div>
     )
