@@ -4,6 +4,8 @@ import React from "react"
 function App() {
   const [modojogo,setJogo]= React.useState("jogoff")
   const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+  const [novoarray,setArray]=React.useState([])
+  const [jogando,setJogando]=React.useState("off")
 
   return (
     <>
@@ -33,16 +35,29 @@ function App() {
   function Teste(props) {
     
     return (
-        <div className={`caixaLetra + ${modojogo}`}>
+        <div className={`caixaLetra ${novoarray.includes(props.letraAtual)?"jogoff":modojogo}`} onClick={()=>riscarLetra(props.letraAtual)}>
             <div className="letraDentro">{props.letraAtual}</div>
         </div>
     )
 
 }
 
+function riscarLetra(letrachamada){
+  const riscaletras = [...novoarray,letrachamada]
+  if(jogando === "on"){
+    setArray(riscaletras)
+  } 
+}
+
+function chutarLetra(){
+  let chutouLetra="jogoff"
+  setJogo(chutouLetra)
+}
+
 function comecarjogo(){
-  let comecarjogo = "caixaLetra jogon"
+  let comecarjogo = "jogon"
   setJogo(comecarjogo)
+  setJogando("on")
 }
 
 }
