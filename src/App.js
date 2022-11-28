@@ -11,9 +11,10 @@ function App() {
   const [palavrasorteada,setPalavra] = React.useState("")
   const [arraypalavrasorteada,setPalavraArray] = React.useState("")
   const palavrabackup= [...palavrasorteada]
-  const [testepalavra,setUnderline]=React.useState("")
+  const [testepalavra,setUnderline]=React.useState([])
   const palavrasublinhada = palavrabackup.map(()=> "_")
   const [contador,setContador]=React.useState(0)
+  const [color,setCor] = React.useState("")
 
 
   return (
@@ -22,12 +23,12 @@ function App() {
         <img src={`assets/forca${contador}.png`}></img>
         <div className="direita">
           <div className="botao"><button className="btnComecar" onClick={comecarjogo}>Escolher Palavra</button></div>
-          <div className="palavra">{palavrasublinhada.map((sub)=><div className="underline">{sub}</div>)}</div>
+          <div className="palavra">{testepalavra.map((sub)=><div className={`underline ${color}`}>{sub}</div>)}</div>
         </div>
       </div>
       <div className="teclado">
             <div className="caixadeletras">
-                {alfabeto.map((alf) => <Teste letraAtual={alf}></Teste>)}
+                {alfabeto.map((alf) => <Teste letraAtual={alf} key={alf}></Teste>)}
             </div>
             <div className="chute">
               <div className="texto">Já sei a palavra! {palavrasorteada}</div>
@@ -45,13 +46,17 @@ function App() {
     
     return (
         <div className={`caixaLetra ${novoarray.includes(props.letraAtual)?"jogoff":modojogo}`} onClick={()=>riscarLetra(props.letraAtual)}>
-            <div className="letraDentro">{props.letraAtual}</div>
+            <div className="letraDentro" key="letra">{props.letraAtual}</div>
         </div>
     )
 
 }
 
 function riscarLetra(letrachamada){
+  console.log(palavrasorteada)
+  console.log(palavrabackup)
+  console.log(testepalavra)
+
   const riscaletras = [...novoarray,letrachamada]
   if(jogando === "on"){
     setArray(riscaletras)
@@ -61,13 +66,36 @@ function riscarLetra(letrachamada){
     } else{
       const novoValor = contador + 1;
       setContador(novoValor);
+      if (novoValor === 6) {
+        acabarJogo()
+      } 
     }
     
   } 
 }
 
+function acabarJogo(){
+  setUnderline(arraypalavrasorteada)
+  setCor("perder")
+  
+  console.log("Jogo Acabou")
+}
+
 function verificarLetra(letrachamada){
   const novaPalavrajogo = [...testepalavra]
+  palavrabackup.forEach ((letra,i)=>{
+    if(palavrabackup[i]===letrachamada){
+      novaPalavrajogo[i]=letra
+      if(!novaPalavrajogo.includes("_")){
+        setCor("ganhar")
+      }
+    }
+  })
+
+  setUnderline(novaPalavrajogo)
+  console.log(testepalavra)
+  
+
 
   /*palavrasorteada.forEach((letra,i) => {
     if(palavrasorteada[i]===letrachamada){
@@ -89,11 +117,11 @@ function selecionarPalavra(){
   const arraypalavradavez = [...palavradavez]
   setPalavra(palavradavez)
   setPalavraArray(arraypalavradavez)
-  criarSublinhado()
+  criarSublinhado(arraypalavradavez)
 }
 
-function criarSublinhado(){
-  let biribu = arraypalavrasorteada.map(()=> "_")
+function criarSublinhado(array){
+  let biribu = array.map(()=> "_")
   setUnderline(biribu)
 }
 
