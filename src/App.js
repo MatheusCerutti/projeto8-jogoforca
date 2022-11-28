@@ -8,7 +8,7 @@ import Chute from "./Chute"
 function App() {
   const [modojogo, setJogo] = React.useState("jogoff")
   const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-  const [novoarray, setArray] = React.useState([])
+  const [novoarray, setArray] = React.useState(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"])
   const [jogando, setJogando] = React.useState("off")
   const [palavrasorteada, setPalavra] = React.useState("")
   const [arraypalavrasorteada, setPalavraArray] = React.useState("")
@@ -40,6 +40,7 @@ function App() {
     setContador(0)
     setArray([])
     setDisabled("")
+    setArray([])
   }
 
   function selecionarPalavra() {
