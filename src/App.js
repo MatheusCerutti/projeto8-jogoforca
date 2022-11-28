@@ -1,6 +1,8 @@
 import React from "react"
 import palavras from "./palavras"
-import palavra from "./palavras"
+import Jogo from "./Jogo"
+import Letras from "./Letras"
+import Chute from "./Chute"
 //import Letras from "./Components/Letras"
 
 function App() {
@@ -10,49 +12,85 @@ function App() {
   const [jogando, setJogando] = React.useState("off")
   const [palavrasorteada, setPalavra] = React.useState("")
   const [arraypalavrasorteada, setPalavraArray] = React.useState("")
-  const palavrabackup = [...palavrasorteada]
   const [testepalavra, setUnderline] = React.useState([])
-  const palavrasublinhada = palavrabackup.map(() => "_")
   const [contador, setContador] = React.useState(0)
   const [color, setCor] = React.useState("")
   const [textoImput, setImput] = React.useState("")
   const [chutasso, setChutasso] = React.useState([])
+  const [disabled,setDisabled] = React.useState("disabled")
 
 
   return (
     <>
-      <div className="caixona">
-        <img src={`assets/forca${contador}.png`}></img>
-        <div className="direita">
-          <div className="botao"><button className="btnComecar" onClick={comecarjogo}>Escolher Palavra</button></div>
-          <div className="palavra">{testepalavra.map((sub) => <div className={`underline ${color}`}>{sub}</div>)}</div>
-        </div>
-      </div>
+      <Jogo contador={contador} comecarjogo={comecarjogo} testepalavra={testepalavra} color={color}></Jogo>
       <div className="teclado">
-        <div className="caixadeletras">
-          {alfabeto.map((alf) => <Teste letraAtual={alf} key={alf}></Teste>)}
-        </div>
-        <div className="chute">
-          <div className="texto">Já sei a palavra! {palavrasorteada}</div>
-          <input type="text" onChange={(event) => setImput(event.target.value)} value={textoImput}></input>
-          <button className="btnChute jogon" onClick={chutar}>Chutar</button>
-        </div>
+        <Letras alfabeto={alfabeto} novoarray={novoarray} modojogo={modojogo} riscarLetra={riscarLetra}></Letras>
+        <Chute setImput={setImput} textoImput={textoImput} chutar={chutar} disabled={disabled}></Chute>
       </div>
-
-
-
     </>
   );
 
-  function Teste(props) {
-
-    return (
-      <div className={`caixaLetra ${novoarray.includes(props.letraAtual) ? "jogoff" : modojogo}`} onClick={() => riscarLetra(props.letraAtual)}>
-        <div className="letraDentro" key="letra">{props.letraAtual}</div>
-      </div>
-    )
-
+  function comecarjogo() {
+    let comecarjogo = "jogon"
+    setJogo(comecarjogo)
+    setJogando("on")
+    selecionarPalavra()
+    setCor("")
+    setContador(0)
+    setArray([])
+    setDisabled("")
   }
+
+  function selecionarPalavra() {
+    const palavradavez = palavras[Math.floor(Math.random() * palavras.length)]
+    const arraypalavradavez = [...palavradavez]
+    setPalavra(palavradavez)
+    setPalavraArray(arraypalavradavez)
+    criarSublinhado(arraypalavradavez)
+  }
+
+  function criarSublinhado(array) {
+    let arrayUnderline = array.map(() => "_")
+    setUnderline(arrayUnderline)
+  }
+
+  function riscarLetra(letrachamada) {
+    if (!novoarray.includes(letrachamada)) {
+      const riscaletras = [...novoarray, letrachamada]
+      if (jogando === "on") {
+        setArray(riscaletras)
+        if (palavrasorteada.includes(letrachamada)) {
+          verificarLetra(letrachamada)
+        } else {
+          const novoValor = contador + 1;
+          if (novoValor <= 6) {
+            setContador(novoValor);
+            if (novoValor === 6) {
+              acabarJogo()
+            }
+          }
+
+        }
+
+      }
+    }
+  }
+
+  function verificarLetra(letrachamada) {
+    const novoUnderline = [...testepalavra]
+    arraypalavrasorteada.forEach((letra, i) => {
+      if (arraypalavrasorteada[i] === letrachamada) {
+        novoUnderline[i] = letra
+        if (!novoUnderline.includes("_")) {
+          setCor("ganhar")
+          setArray(alfabeto)
+          setDisabled("disabled")
+        }
+      }
+    })
+    setUnderline(novoUnderline)
+  }
+
 
   function chutar() {
     const palavrachutada = [...textoImput]
@@ -75,6 +113,8 @@ function App() {
     if (!arraydochute.includes("errado")) {
       setCor("ganhar")
       setUnderline(arraypalavrasorteada)
+      setArray(alfabeto)
+      setDisabled("disabled")
     } else {
       acabarJogo()
     }
@@ -82,81 +122,13 @@ function App() {
 
   }
 
-
-  function riscarLetra(letrachamada) {
-    console.log(palavrasorteada)
-    console.log(palavrabackup)
-    console.log(testepalavra)
-
-    const riscaletras = [...novoarray, letrachamada]
-    if (jogando === "on") {
-      setArray(riscaletras)
-      if (palavrasorteada.includes(letrachamada)) {
-        console.log("tem essa letra")
-        verificarLetra(letrachamada)
-      } else {
-        const novoValor = contador + 1;
-        setContador(novoValor);
-        if (novoValor === 6) {
-          acabarJogo()
-        }
-      }
-
-    }
-  }
-
   function acabarJogo() {
     setUnderline(arraypalavrasorteada)
     setCor("perder")
     setContador(6)
-
-    console.log("Jogo Acabou")
+    setArray(alfabeto)
+    setDisabled("disabled")
   }
-
-  function verificarLetra(letrachamada) {
-    const novaPalavrajogo = [...testepalavra]
-    palavrabackup.forEach((letra, i) => {
-      if (palavrabackup[i] === letrachamada) {
-        novaPalavrajogo[i] = letra
-        if (!novaPalavrajogo.includes("_")) {
-          setCor("ganhar")
-        }
-      }
-    })
-
-    setUnderline(novaPalavrajogo)
-    console.log(testepalavra)
-
-
-
-    /*palavrasorteada.forEach((letra,i) => {
-      if(palavrasorteada[i]===letrachamada){
-        testepalavra[i] = letra
-      }
-    });
-        setUnderline(testepalavra)*/
-  }
-
-  function comecarjogo() {
-    let comecarjogo = "jogon"
-    setJogo(comecarjogo)
-    setJogando("on")
-    selecionarPalavra()
-  }
-
-  function selecionarPalavra() {
-    const palavradavez = palavras[Math.floor(Math.random() * palavras.length)]
-    const arraypalavradavez = [...palavradavez]
-    setPalavra(palavradavez)
-    setPalavraArray(arraypalavradavez)
-    criarSublinhado(arraypalavradavez)
-  }
-
-  function criarSublinhado(array) {
-    let biribu = array.map(() => "_")
-    setUnderline(biribu)
-  }
-
 
 }
 
